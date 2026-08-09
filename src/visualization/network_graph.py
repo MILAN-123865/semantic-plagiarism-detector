@@ -298,11 +298,7 @@ def build_network_data(
 
     # ── Plagiarism Cluster Detection (Issue #1675) ───────────────────────────────
     # Use connected components to identify collusion rings
-<<<<<<< HEAD
-=======
-    import networkx as nx
 
->>>>>>> upstream/main
     connected_components = list(nx.connected_components(G))
     cluster_map = {}
     for cluster_id, component in enumerate(connected_components):
@@ -523,29 +519,6 @@ def render_network_plotly(
     return fig
 
 
-# Update plot_similarity_network to pass font_scale through
-def plot_similarity_network(
-    similarity_df: pd.DataFrame,
-    threshold: float = 0.59,
-    min_degree: int = 0,
-    title: str = "Document Plagiarism Network",
-    node_scale: float = 1.0,
-    theme_colors: Optional[dict] = None,
-    selected_node: Optional[str] = None,
-    show_isolated: bool = False,
-    spring_k: float = 0.15,
-    iterations: int = 50,
-    repulsion: float = 1.0,
-    font_scale: float = 1.0,  # <-- Added parameter
-) -> go.Figure:
-    # ... [existing build_network_data call] ...
-    return render_network_plotly(
-        network_data=network_data,
-        title=title,
-        theme_colors=theme_colors,
-        font_scale=font_scale,  # <-- Pass through
-    )
-
 
 def calculate_force_directed_layout(
     graph: nx.Graph,
@@ -599,6 +572,7 @@ def plot_similarity_network(
     iterations: int = 50,
     repulsion: float = 1.0,
     max_label_len: int = 15,
+    font_scale: float = 1.0,
 ) -> go.Figure:
     """Builds a NetworkX graph from the similarity matrix and returns an interactive Plotly figure."""
     network_data = build_network_data(
@@ -620,6 +594,7 @@ def plot_similarity_network(
         network_data=network_data,
         title=title,
         theme_colors=theme_colors,
+        font_scale=font_scale,
     )
 
 
@@ -636,6 +611,7 @@ def plot_plagiarism_network_graph(
     iterations: int = 50,
     repulsion: float = 1.0,
     max_label_len: int = 15,
+    font_scale: float = 1.0,
 ) -> go.Figure:
     """Renders an interactive force-directed plagiarism network graph with custom physics controls and label truncation."""
     return plot_similarity_network(
@@ -651,6 +627,7 @@ def plot_plagiarism_network_graph(
         iterations=iterations,
         repulsion=repulsion,
         max_label_len=max_label_len,
+        font_scale=font_scale,
     )
 
 

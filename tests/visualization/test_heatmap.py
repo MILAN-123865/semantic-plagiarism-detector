@@ -581,7 +581,7 @@ def test_plot_similarity_heatmap_plotly_custom_colorscale(
     heatmap = next(trace for trace in fig.data if trace.type == "heatmap")
     assert heatmap.colorscale is not None
 
-fig_default = plot_similarity_heatmap_plotly(multi_doc_df, title="Default Colorscale")
+    fig_default = plot_similarity_heatmap_plotly(multi_doc_df, title="Default Colorscale")
     heatmap_default = next(trace for trace in fig_default.data if trace.type == "heatmap")
     assert heatmap_default.colorscale != heatmap.colorscale
 
