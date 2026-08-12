@@ -98,7 +98,6 @@ def test_generates_valid_pdf_with_required_fields():
     assert "First matching paragraph" in text
 
 
-def test_generates_pdf_with_qr_code():
 def test_pdf_matches_golden_fixture():
     """Verify generated PDF matches the golden fixture (deterministic comparison)."""
     golden_path = FIXTURES_DIR / "generate_plagiarism_report.pdf"
@@ -123,28 +122,7 @@ def test_pdf_matches_golden_fixture():
 
     text = _read_text(pdf_bytes)
     assert "student_a.pdf" in text
-            (
-                "This is the first paragraph from document A that contains some text about the subject being discussed.",
-                "This is the first paragraph from document B that contains similar text about the same subject being discussed.",
-                0.96,
-            ),
-            (
-                "The second paragraph discusses the methodology used in the research study and includes various statistical analyses.",
-                "Methodology section describes the research approach and includes statistical analysis similar to the previous paragraph.",
-                0.87,
-            ),
-            (
-                "In the conclusion, the authors summarize their findings and suggest areas for future research.",
-                "The authors conclude by summarizing their key findings and identifying potential areas for further investigation.",
-                0.79,
-            ),
-            (
-                "The introduction provides background information on the topic and establishes the context for the study.",
-                "Introduction section gives background on the topic and sets up the research context.",
-                0.72,
-            ),
-        ],
-    )
+
 
     assert_pdf_matches(pdf_buffer.getvalue(), golden_path)
 

@@ -198,3 +198,41 @@ class PaginationPage(Generic[T]):
             "next_page": self.next_page(),
             "previous_page": self.previous_page(),
         }
+
+
+def paginate_items(
+    items: List[T],
+    page: int = 1,
+    page_size: int = 20,
+    max_page_size: int = 100,
+) -> PaginationPage[T]:
+    """
+    Paginate a list of items.
+    """
+    if page < 1:
+        page = 1
+    if page_size < 1:
+        page_size = 20
+    if page_size > max_page_size:
+        page_size = max_page_size
+
+    total_items = len(items)
+    total_pages = max(1, (total_items + page_size - 1) // page_size)
+    
+    # Do not clamp page to total_pages if items is empty
+    if total_items == 0:
+        page = 1
+    elif page > total_pages:
+        page = total_pages
+
+    start_idx = (page - 1) * page_size
+    end_idx = start_idx + page_size
+    paginated_items = items[start_idx:end_idx]
+
+    return PaginationPage(
+        items=paginated_items,
+        page=page,
+        total_pages=total_pages,
+        total_items=total_items,
+        per_page=page_size,
+    )

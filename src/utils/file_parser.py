@@ -12,13 +12,6 @@ along with file categorization and validation helpers.
 """
 
 from typing import List, Optional, Tuple
-along with file categorization, validation helpers, and PDF metadata extraction.
-
-Recent Additions (Issue #1570):
-- Added get_file_mime_type_from_bytes() to inspect raw byte headers and
-  return standard MIME type strings without relying on file extensions.
-"""
-
 import logging
 from typing import Any, List, Optional, Tuple, Union
 
@@ -82,11 +75,11 @@ class EncryptedPDFError(Exception):
 def get_file_mime_type_from_bytes(
     file_bytes: Union[bytes, bytearray, memoryview],
 ) -> str:
-    """Inspect raw byte headers to determine the file's MIME type.
+    """Inspect raw byte headers to determine the file MIME type.
 
     This function analyzes the magic bytes (file signature) at the beginning
     of the byte stream to identify the file format. This is critical for
-    security validation to ensure a file's actual content matches its
+    security validation to ensure a file actual content matches its
     claimed extension, preventing malicious payload execution.
 
     Args:
@@ -259,7 +252,7 @@ def validate_pdf_page_count(
 
     return page_count
 
-def extract_text_from_pdf(file_bytes: bytes, password: Optional[str] = None) -> Tuple[str, bool]:
+
 def get_file_size_formatted_short(num_bytes: int) -> str:
     """
     Convert a file size in bytes to a compact human-readable string.
