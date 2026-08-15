@@ -403,21 +403,6 @@ def plot_high_severity_trends(
 ) -> go.Figure:
     """Create an interactive line chart showing High severity plagiarism incidents over time."""
     if not trend_data:
-
-        # Return empty chart with message
-        fig = go.Figure()
-        fig.add_annotation(
-            text="No High severity incidents recorded in the specified period",
-            xref="paper",
-            yref="paper",
-            x=0.5,
-            y=0.5,
-            showarrow=False,
-            font=dict(size=16, color="gray"),
-        )
-        colors = get_chart_theme_colors(theme_mode)
-        fig.update_layout()
-
         return _empty_chart(
             title="High Severity Plagiarism Trends (Last 30 Days)",
             message="No High severity incidents recorded in the specified period",

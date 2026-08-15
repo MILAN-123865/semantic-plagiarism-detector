@@ -23,6 +23,7 @@ def test_plot_similarity_distribution_xaxis_label():
 from src.visualization.analytics import (
     calculate_severity_ratios,
     plot_high_severity_trends,
+    plot_monthly_incident_trends,
     plot_severity_donut_chart,
     plot_similarity_boxplot,
     plot_similarity_boxplot_by_group,
