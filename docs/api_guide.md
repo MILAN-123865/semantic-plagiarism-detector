@@ -1,3 +1,80 @@
+# REST API Authentication Guide
+
+All protected endpoints in the plagiarism detector engine require authentication via JSON Web Tokens (JWT). Use the guide below to authenticate your scripts and API clients.
+
+## 1. Obtain an Access Token
+
+Authenticate by sending a `POST` request with your credentials to the `/api/v1/auth/login` endpoint. This returns a session token.
+
+### cURL Example
+```bash
+curl -X POST "http://localhost:8000/api/v1/auth/login" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "username": "your_username",
+       "password": "your_password"
+     }'
+```
+
+### Python Example
+```python
+import requests
+
+url = "http://localhost:8000/api/v1/auth/login"
+payload = {
+    "username": "your_username",
+    "password": "your_password"
+}
+headers = {
+    "Content-Type": "application/json"
+}
+
+response = requests.post(url, json=payload, headers=headers)
+response_data = response.json()
+
+# Extract the access token
+access_token = response_data.get("token")
+print(f"Token obtained successfully: {access_token[:10]}...")
+```
+
+---
+
+## 2. Access Protected Scan Endpoints
+
+To interact with protected scanning tools (such as the document scan endpoint `/api/v1/scan`), include the retrieved token in your request's `Authorization` header prefixed with `Bearer `.
+
+### cURL Example
+```bash
+curl -X POST "http://localhost:8000/api/v1/scan" \
+     -H "Authorization: Bearer YOUR_ACCESS_TOKEN_HERE" \
+     -F "file=@/path/to/document.pdf"
+```
+
+### Python Example
+```python
+import requests
+
+url = "http://localhost:8000/api/v1/scan"
+headers = {
+    "Authorization": f"Bearer {access_token}"
+}
+files = {
+    "file": ("document.pdf", open("document.pdf", "rb"), "application/pdf")
+}
+
+response = requests.post(url, headers=headers, files=files)
+
+if response.status_code == 200:
+    print("Scan initiated successfully:")
+    print(response.json())
+elif response.status_code == 401:
+    print("Authentication failed. Token might be invalid or expired.")
+else:
+    print(f"Failed to start scan: {response.status_code}")
+```
+
+---
+
 ## Testing with Swagger UI
 
 When developing and auditing endpoints locally, you can use the interactive Swagger UI panel hosted at [http://localhost:8000/docs](http://localhost:8000/docs) to fire live requests against your workspace.
